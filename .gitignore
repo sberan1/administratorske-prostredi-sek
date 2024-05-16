@@ -1,0 +1,7 @@
+log/*
+temp/*
+.idea
+config/local.neon
+vendor
+var
+node_modules

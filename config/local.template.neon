@@ -1,0 +1,6 @@
+parameters:
+    doctrine:
+        host: 'db'
+        user: 'root'
+        password: 'root'
+        dbname: 'myapp'
