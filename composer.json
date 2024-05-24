@@ -17,21 +17,26 @@
 		"nette/robot-loader": "^4.0",
 		"nette/security": "^3.2",
 		"nette/utils": "^4.0",
-		"latte/latte": "^3.0",
 		"tracy/tracy": "^2.10",
 		"nettrine/orm": "^0.8.4",
-		"contributte/console": "^0.10.1"
+		"contributte/console": "^0.10.1",
+		"ramsey/uuid-doctrine": "^2.0",
+		"ublaboo/datagrid": "dev-master",
+		"contributte/latte": "^0.6.0",
+		"contributte/forms-bootstrap": "^0.8.1"
 	},
 	"require-dev": {
 		"nette/tester": "^2.5",
-		"symfony/thanks": "^1"
+		"symfony/thanks": "^1",
+		"contributte/nextras-orm-generator": "^0.6.1"
 	},
 	"autoload": {
 		"psr-4": {
 			"App\\": "app"
 		}
 	},
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 	"config": {
 		"allow-plugins": {
 			"symfony/thanks": true

@@ -20,6 +20,10 @@ latte:
 	extensions:
 		- App\UI\Accessory\LatteExtension
 
+services:
+    - Doctrine\ORM\EntityManager
+    - App\Core\Model\Auth
+
 
 di:
 	export:

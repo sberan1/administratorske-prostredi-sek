@@ -1,7 +1,7 @@
 # Variables
 DOCKER_COMPOSE = docker-compose
 PHP_CONTAINER = php
-CONSOLE_COMMAND = php bin/console
+CONSOLE_COMMAND = php bin/
 
 # Targets
 .PHONY: composer php console
@@ -10,10 +10,10 @@ composer:
 	$(DOCKER_COMPOSE) exec $(PHP_CONTAINER) composer $(MAKECMDGOALS)
 
 php:
-	$(DOCKER_COMPOSE) exec $(PHP_CONTAINER) php $(MAKECMDGOALS)
+	$(DOCKER_COMPOSE) exec $(PHP_CONTAINER) $(MAKECMDGOALS)
 
 console:
-	$(DOCKER_COMPOSE) exec $(PHP_CONTAINER) $(CONSOLE_COMMAND) $(MAKECMDGOALS)
+	$(DOCKER_COMPOSE) exec $(PHP_CONTAINER) $(CONSOLE_COMMAND)$(MAKECMDGOALS)
 
 update-db:
 	$(DOCKER_COMPOSE) exec $(PHP_CONTAINER) php bin/console orm:schema-tool:update --complete --force

@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App;
 
+use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\EntityManager;
 use Nette\Bootstrap\Configurator;
 use Symfony\Component\Console\Application as SymfonyApplication;
 
 
 class Bootstrap
 {
+
 	public static function boot(): Configurator
 	{
 		$configurator = new Configurator;
 		$appDir = dirname(__DIR__);
+
 
 		$configurator->setDebugMode(true);
 		$configurator->enableTracy($appDir . '/log');

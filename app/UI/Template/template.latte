@@ -1,0 +1,25 @@
+{layout '../@layout.latte'}
+{block template}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 bg-light sidebar">
+                <ul class="nav flex-column">
+                    {foreach $links as $link}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{link $link.presenter}: ">{$link.name}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-md-9">
+               <h1 class="mt-4 text-right">{$name}</h1>
+                <!-- Page content goes here -->
+                {block content}
+                {/block}
+            </div>
+        </div>
+    </div>
+{/block}

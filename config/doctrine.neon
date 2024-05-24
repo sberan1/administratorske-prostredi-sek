@@ -16,7 +16,13 @@ doctrine.dbal:
         panel: %debugMode%
     connection:
         driver: pdo_pgsql
-        host: %doctrine.host%
-        user: %doctrine.user%
-        password: %doctrine.password%
-        dbname: %doctrine.dbname%
+        url: %doctrine.url%
+        types:
+            role: App\Core\Model\Entity\Type\Role
+            scale: App\Core\Model\Entity\Type\Scale
+            uuid: Ramsey\Uuid\Doctrine\UuidType
+
+doctrine.orm:
+    configuration:
+        namingStrategy: App\Core\Model\CamelNamingStrategy
+

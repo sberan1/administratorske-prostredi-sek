@@ -22,12 +22,11 @@ services:
       dockerfile: ./.docker/php/Dockerfile
     volumes:
       - ./:/var/www/html/
-      - ./.docker/php/htdocs:/var/www/htdocs
-      - ./.docker/php/docker.conf:/etc/php/8.3/fpm/pool.d/docker.conf
-      - ./.docker/php/www.conf:/etc/php/8.3/fpm/pool.d/www.conf
-      - ./.docker/php/zz-docker.conf:/etc/php/8.3/fpm/pool.d/zz-docker.conf
-    depends_on:
-      - database
+# in case of error "[pool www] user has not been defined" uncomment following lines
+#      - ./.docker/php/htdocs:/var/www/htdocs
+#      - ./.docker/php/docker.conf:/etc/php/8.3/fpm/pool.d/docker.conf
+#      - ./.docker/php/www.conf:/etc/php/8.3/fpm/pool.d/www.conf
+#      - ./.docker/php/zz-docker.conf:/etc/php/8.3/fpm/pool.d/zz-docker.conf
     environment:
       NETTE_DEBUG: 1
       PHP_EXTENSION_XDEBUG: 1
@@ -39,17 +38,3 @@ services:
       STARTUP_COMMAND_1: composer install
       STARTUP_COMMAND_2: composer install
       STARTUP_COMMAND_3: NETTE_DEBUG=1 php -v
-
-  database:
-    image: dockette/postgres:10
-    environment:
-      - POSTGRES_PASSWORD=contributte
-      - POSTGRES_USER=contributte
-      - POSTGRES_DB=contributte
-    volumes:
-      - .docker/data/postgres:/var/lib/postgresql/data
-
-  adminer:
-    image: dockette/adminer:dg
-    ports:
-      - 8073:80
