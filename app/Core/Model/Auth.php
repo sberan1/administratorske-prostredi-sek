@@ -21,7 +21,7 @@ class Auth implements Authenticator
     {
         // TODO: Implement @method IIdentity authenticate(array $credentials)
         $row = $this->em->getRepository(User::class)->findOneBy(['email' => $user]);
-        bdump($row);
+        //bdump($row);
         if (!$row) {
             throw new AuthenticationException('User not found.');
         }
@@ -36,6 +36,6 @@ class Auth implements Authenticator
 
         // ověříme heslo
         // vrátíme identitu se všemi údaji z databáze
-        return new SimpleIdentity($row->getId(), $roles, (array) $row);
+        return new SimpleIdentity($row->getId(), $roles, ["email" => $row->getEmail(), "firstName" => $row->getFirstName(), "lastName" => $row->getLastName()]);
     }
 }

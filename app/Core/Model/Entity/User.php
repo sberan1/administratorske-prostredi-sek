@@ -212,4 +212,130 @@ class User
     {
         return $this->userSemesters;
     }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function setRole(string $role): void
+    {
+        $this->role = $role;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function setFaculty(?Faculty $faculty): void
+    {
+        $this->faculty = $faculty;
+    }
+
+    public function setActiveUserSemester(?UserSemester $activeUserSemester): void
+    {
+        $this->activeUserSemester = $activeUserSemester;
+    }
+
+    public function setActiveUserSemesterId(?string $activeUserSemesterId): void
+    {
+        $this->activeUserSemesterId = $activeUserSemesterId;
+    }
+
+    public function setHashedRefreshToken(?string $hashedRefreshToken): void
+    {
+        $this->hashedRefreshToken = $hashedRefreshToken;
+    }
+
+    /**
+     * @param mixed $favouriteSubjects
+     */
+    public function setFavouriteSubjects($favouriteSubjects): void
+    {
+        $this->favouriteSubjects = $favouriteSubjects;
+    }
+
+    public function setBlocked(bool $blocked): void
+    {
+        $this->blocked = $blocked;
+    }
+
+    public function setUnblockPin(?string $unblockPin): void
+    {
+        $this->unblockPin = $unblockPin;
+    }
+
+    /**
+     * @param mixed $reflections
+     */
+    public function setReflections($reflections): void
+    {
+        $this->reflections = $reflections;
+    }
+
+    /**
+     * @param mixed $subjectsCompetencesObtained
+     */
+    public function setSubjectsCompetencesObtained($subjectsCompetencesObtained): void
+    {
+        $this->subjectsCompetencesObtained = $subjectsCompetencesObtained;
+    }
+
+    /**
+     * @param mixed $diaryEntries
+     */
+    public function setDiaryEntries($diaryEntries): void
+    {
+        $this->diaryEntries = $diaryEntries;
+    }
+
+    /**
+     * @param mixed $subjectQuestions
+     */
+    public function setSubjectQuestions($subjectQuestions): void
+    {
+        $this->subjectQuestions = $subjectQuestions;
+    }
+
+    /**
+     * @param mixed $files
+     */
+    public function setFiles($files): void
+    {
+        $this->files = $files;
+    }
+
+    /**
+     * @param mixed $userSemesters
+     */
+    public function setUserSemesters($userSemesters): void
+    {
+        $this->userSemesters = $userSemesters;
+    }
 }

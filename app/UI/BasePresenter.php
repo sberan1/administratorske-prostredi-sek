@@ -16,8 +16,8 @@ class BasePresenter extends Presenter
 
     public function renderDefault()
     {
-        $this->template->setFile(__DIR__ . '/../@template.latte');
-        $this->template->name = '';
+        //$this->template->setFile(__DIR__ . '/@layout.latte');
+        //$this->template->name = '';
 
         // Define the links for the layout bar
         $this->template->links = [

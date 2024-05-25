@@ -3,7 +3,6 @@
 namespace App\UI\Login;
 
 use Contributte\FormsBootstrap\BootstrapForm;
-use Doctrine\ORM\EntityManager;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
 use App\UI\BasePresenter;
@@ -13,6 +12,14 @@ use Nettrine\ORM\EntityManagerDecorator;
 final class LoginPresenter extends BasePresenter
 {
     private Auth $auth;
+
+    protected function startup()
+    {
+        parent::startup();
+        if ($this->user->isLoggedIn()) {
+            $this->redirect('Home:');
+        }
+    }
     public function __construct(EntityManagerDecorator $em)
     {
         $this->auth = new Auth($em);
@@ -40,6 +47,7 @@ final class LoginPresenter extends BasePresenter
             $user->setAuthenticator($this->auth);
             try {
                 $user->login($values->email, $values->password);
+                $user->setExpiration('30 minutes', true);
                 $this->redirect('Home:');
             } catch (AuthenticationException $e) {
                 $form->addError('Incorrect username or password.');
