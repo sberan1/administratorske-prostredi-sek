@@ -22,7 +22,7 @@ class EditFacultyPresenter extends BasePresenter
         }
     }
 
-    public function renderDefault(string $id = null):void
+    public function actionDefault(string $id = null):void
     {
         if ($id) {
             $faculty = $this->em->getRepository(Faculty::class)->find($id);

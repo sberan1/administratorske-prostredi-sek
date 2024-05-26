@@ -1,27 +1,27 @@
 {layout "../Template/template.latte"}
 {block content}
     <div class="d-flex justify-content-between align-items-center my-3">
-        <h3>Semestry</h3>
-        <a href="{link 'Semester:add'}" class="btn btn-primary rounded-circle">
+        <h3>Studijní Obor</h3>
+        <a href="{link 'Course:add'}" class="btn btn-primary rounded-circle">
             <i class="fas fa-plus"></i>
         </a>
     </div>
     <table class="table" style="margin-top: 15px">
         <tr>
-            <th>Název Semestru</th>
-            <th>Studijní obor</th>
+            <th>Název Studijního Oboru</th>
+            <th>Fakulta</th>
             <th>Edit</th>
             <th>Smazat</th>
         </tr>
-        {foreach $semesters as $semester}
+        {foreach $courses as $course}
             <tr>
-                <td>{$semester->getName()}</td>
-                <td>{$semester->getCourses()->getName()}</td>
+                <td>{$course->getName()}</td>
+                <td>{$course->getFaculty()->getName()}</td>
                 <td>
-                    <a class="btn btn-primary" href="{link 'Semester:edit', $semester->getId()}">Edit</a>
+                    <a class="btn btn-primary" href="{link 'Course:edit', $course->getId()}">Edit</a>
                 </td>
                 <td>
-                    <a class="btn btn-danger" href="{link 'Semester:delete', $semester->getId()}">Smazat</a>
+                    <a class="btn btn-danger" href="{link 'Course:delete', $course->getId()}">Smazat</a>
                 </td>
             </tr>
         {/foreach}

@@ -4,8 +4,7 @@ namespace App\UI\Semester;
 
 use App\Core\Model\Entity\Semester;
 use App\UI\BasePresenter;
-use Nette\Security\User as NetteUser;
-use Nettrine\ORM\EntityManagerDecorator;
+
 
 class SemesterPresenter extends BasePresenter
 {

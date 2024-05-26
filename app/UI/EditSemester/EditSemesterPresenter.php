@@ -19,7 +19,7 @@ class EditSemesterPresenter extends BasePresenter
         }
     }
 
-    public function renderDefault(string $id = null):void
+    public function actionDefault(string $id = null):void
     {
         if ($id) {
             $semester = $this->em->getRepository(Semester::class)->find($id);
@@ -87,7 +87,7 @@ class EditSemesterPresenter extends BasePresenter
     {
         $semester = $this->template->semester;
         $semester->setName($values['name']);
-        $semester->setCourse($this->em->getRepository(Course::class)->find($values['course']));
+        $semester->setCourses($this->em->getRepository(Course::class)->find($values['course']));
 
         $this->em->persist($semester);
         $this->em->flush();
