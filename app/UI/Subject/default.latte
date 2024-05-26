@@ -1,0 +1,37 @@
+{layout "../Template/template.latte"}
+{block content}
+{/block}
+<div class="d-flex justify-content-between align-items-center my-3">
+    <h3>Předměty</h3>
+    <a href="{link 'Subject:add'}" class="btn btn-primary rounded-circle">
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+<table class="table" style="margin-top: 15px">
+    <tr>
+        <th>Název předmětu</th>
+        <th>Kód předmětu</th>
+        <th>Doporučený semestr</th>
+        <th>Edit</th>
+        <th>Smazat</th>
+    </tr>
+    {foreach $subjects as $subject}
+    <tr>
+        <td>{$subject->getName()}</td>
+        <td>{$subject->getCode()}</td>
+        <td>{$subject->getRecommendedSemester()->getName()}</td>
+        <td>
+            <a class="btn btn-primary" href="{link 'Subject:edit', $subject->getId()}">Edit</a>
+        </td>
+        <td>
+            <a class="btn btn-danger" href="{link 'Subject:delete', $subject->getId()}">Smazat</a>
+        </td>
+    </tr>
+    {/foreach}
+</table>
+<div class="d-flex justify-content-center">
+    <a class="btn btn-primary mr-2" href="{link 'this', $currentPage - 1}" n:if="$currentPage > 1">Předchozí</a>
+    <a class="btn btn-primary mr-2 disabled" href="#" n:if="$currentPage == 1">Předchozí</a>
+    <a class="btn btn-primary ml-2" href="{link 'this', $currentPage + 1}" n:if="$currentPage < $totalPages">Další</a>
+    <a class="btn btn-primary ml-2 disabled" href="#" n:if="$currentPage >= $totalPages">Další</a>
+</div>

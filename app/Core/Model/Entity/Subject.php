@@ -17,8 +17,8 @@ class Subject
     #[ORM\Column(type: "string", nullable: false)]
     private string $code;
 
-    #[ORM\ManyToOne(targetEntity: Semester::class, inversedBy: "subjects")]
-    private Semester $recommendedSemester;
+    #[ORM\ManyToMany(targetEntity: RecommendedSemester::class, inversedBy: "B")]
+    private RecommendedSemester $recommendedSemester;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "favouriteSubjects")]
     private $users;

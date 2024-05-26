@@ -17,7 +17,7 @@ class Semester
     #[ORM\OneToMany(targetEntity: UserSemester::class, mappedBy: "semester")]
     private $userSemesters;
 
-    #[ORM\OneToMany(targetEntity: Subject::class, mappedBy: "recommendedSemester")]
+    #[ORM\OneToMany(targetEntity: RecommendedSemester::class, mappedBy: "A")]
     private $subjects;
 
     #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: "semesters")]
