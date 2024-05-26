@@ -3,17 +3,29 @@
 namespace App\UI\EditUser;
 
 use App\Core\Model\Entity\User;
+use App\UI\BasePresenter;
 use Contributte\FormsBootstrap\BootstrapForm;
 use Nette\Application\UI\Presenter;
+use Nette\Security\User as NetteUser;
 use Nettrine\ORM\EntityManagerDecorator;
 
-class EditUserPresenter extends Presenter
+class EditUserPresenter extends BasePresenter
 {
     private EntityManagerDecorator $em;
+    private NetteUser $user;
 
-    public function __construct(EntityManagerDecorator $em)
+    public function __construct(EntityManagerDecorator $em, NetteUser $user)
     {
         $this->em = $em;
+        $this->user = $user;
+    }
+
+    protected function startup()
+    {
+        parent::startup();
+        if (!$this->user->isLoggedIn()) {
+            $this->redirect('Login:');
+        }
     }
 
     public function actionDefault(string $id): void
@@ -24,8 +36,8 @@ class EditUserPresenter extends Presenter
         $this->template->links = [
             ['presenter' => 'Home:', 'name' => 'Home'],
             ['presenter' => 'Faculty:', 'name' => 'Fakulty'],
-            ['presenter' => 'Semester:', 'name' => 'Semestry'],
             ['presenter' => 'Course:', 'name' => 'Studijní obory'],
+            ['presenter' => 'Semester:', 'name' => 'Semestry'],
             ['presenter' => 'Subject:', 'name' => 'Předměty'],
             ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
             ['presenter' => 'Competence:', 'name' => 'Kompetence'],

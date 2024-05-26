@@ -1,0 +1,29 @@
+{layout "../Template/template.latte"}
+{block content}
+    <div class="d-flex justify-content-between align-items-center my-3">
+        <h3>Faculty List</h3>
+        <a href="{link 'Faculty:add'}" class="btn btn-primary rounded-circle">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+    <table class="table" style="margin-top: 15px">
+        <tr>
+            <th>Jméno fakulty</th>
+            <th>Edit</th>
+        </tr>
+        {foreach $faculties as $faculty}
+            <tr>
+                <td>{$faculty->getName()}</td>
+                <td>
+                    <a class="btn btn-primary" href="{link 'Faculty:edit', $faculty->getId()}">Edit</a>
+                </td>
+            </tr>
+        {/foreach}
+    </table>
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary mr-2" href="{link 'this', $currentPage - 1}" n:if="$currentPage > 1">Previous</a>
+        <a class="btn btn-primary mr-2 disabled" href="#" n:if="$currentPage == 1">Previous</a>
+        <a class="btn btn-primary ml-2" href="{link 'this', $currentPage + 1}" n:if="$currentPage < $totalPages">Next</a>
+        <a class="btn btn-primary ml-2 disabled" href="#" n:if="$currentPage >= $totalPages">Next</a>
+    </div>
+{/block}

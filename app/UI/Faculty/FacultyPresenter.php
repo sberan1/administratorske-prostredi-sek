@@ -1,25 +1,20 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace App\UI\Home;
+namespace App\UI\Faculty;
 
-use App\Core\Model\Entity\User;
-use Nette\Security\User as NetteUser;
+use App\Core\Model\Entity\Faculty;
 use App\UI\BasePresenter;
+use Nette\Security\User as NetteUser;
 use Nettrine\ORM\EntityManagerDecorator;
-use Ublaboo\DataGrid\DataGrid;
 
-
-final class HomePresenter extends BasePresenter
+class FacultyPresenter extends BasePresenter
 {
+    private EntityManagerDecorator $em;
     private NetteUser $user;
     private const ITEMS_PER_PAGE = 15;
-
-
-    public function __construct(
-        private readonly EntityManagerDecorator $em,
-        NetteUser $user
-    )
+    public function __construct(EntityManagerDecorator $em, NetteUser $user)
     {
+        $this->em = $em;
         $this->user = $user;
     }
 
@@ -30,8 +25,7 @@ final class HomePresenter extends BasePresenter
             $this->redirect('Login:');
         }
     }
-
-    public function renderDefault(int $page = 1)
+    public function renderDefault(int $page=1): void
     {
         $data = $this->user->getIdentity()->getData();
         $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
@@ -46,18 +40,26 @@ final class HomePresenter extends BasePresenter
             ['presenter' => 'Competence:', 'name' => 'Kompetence'],
         ];
 
-        $qb = $this->em->getRepository(User::class)
-            ->createQueryBuilder('u')
-            ->select(['u', 'f'])
-            ->leftJoin('u.faculty', 'f')
-            ->orderBy('u.createdAt', 'DESC')
+        $qb = $this->em->getRepository(Faculty::class)
+            ->createQueryBuilder('f')
+            ->orderBy('f.name', 'ASC')
             ->setFirstResult(($page - 1) * self::ITEMS_PER_PAGE)
             ->setMaxResults(self::ITEMS_PER_PAGE);
 
-        $this->template->users = $qb->getQuery()->getResult();
+        $this->template->faculties = $qb->getQuery()->getResult();
         $this->template->currentPage = $page;
-        $this->template->totalPages = ceil($this->em->getRepository(User::class)->count([]) / self::ITEMS_PER_PAGE);
+        $this->template->totalPages = ceil($this->em->getRepository(Faculty::class)->count([]) / self::ITEMS_PER_PAGE);
     }
+
+    public function actionEdit(string $id): void
+    {
+        $this->redirect('EditFaculty:', $id);
+    }
+    public function actionAdd(): void
+    {
+        $this->redirect('EditFaculty:');
+    }
+
 
 
 }
