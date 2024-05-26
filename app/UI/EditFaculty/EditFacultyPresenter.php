@@ -13,14 +13,6 @@ use Ramsey\Uuid\Uuid;
 
 class EditFacultyPresenter extends BasePresenter
 {
-    private EntityManagerDecorator $em;
-    private NetteUser $user;
-
-    public function __construct(EntityManagerDecorator $em, NetteUser $user)
-    {
-        $this->em = $em;
-        $this->user = $user;
-    }
 
     protected function startup()
     {
@@ -32,18 +24,6 @@ class EditFacultyPresenter extends BasePresenter
 
     public function renderDefault(string $id = null):void
     {
-        $data = $this->user->getIdentity()->getData();
-        $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
-
-        $this->template->links = [
-            ['presenter' => 'Home:', 'name' => 'Home'],
-            ['presenter' => 'Faculty:', 'name' => 'Fakulty'],
-            ['presenter' => 'Course:', 'name' => 'Studijní obory'],
-            ['presenter' => 'Semester:', 'name' => 'Semestry'],
-            ['presenter' => 'Subject:', 'name' => 'Předměty'],
-            ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
-            ['presenter' => 'Competence:', 'name' => 'Kompetence'],
-        ];
         if ($id) {
             $faculty = $this->em->getRepository(Faculty::class)->find($id);
             $this->template->fakulta = $faculty;

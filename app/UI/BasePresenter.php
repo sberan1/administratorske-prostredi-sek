@@ -4,27 +4,33 @@ namespace App\UI;
 
 use Nette\Application\UI\Presenter;
 use Nette\Security\User;
+use Nettrine\ORM\EntityManagerDecorator;
 
 class BasePresenter extends Presenter
 {
-    private User $user;
+    protected User $user;
+    protected EntityManagerDecorator $em;
 
-    public function __construct(User $user)
+    public function injectBase(User $user, EntityManagerDecorator $em)
     {
         $this->user = $user;
+        $this->em = $em;
     }
 
-    public function renderDefault()
+    protected function startup()
     {
-        //$this->template->setFile(__DIR__ . '/@layout.latte');
-        //$this->template->name = '';
+        parent::startup();
+        $data = $this->user->getIdentity()->getData();
+        $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
 
-        // Define the links for the layout bar
         $this->template->links = [
-            ['presenter' => 'Page1', 'name' => 'Page 1'],
-            ['presenter' => 'Page2', 'name' => 'Page 2'],
-            ['presenter' => 'Page3', 'name' => 'Page 3'],
-            // Add more links as needed
+            ['presenter' => 'Home:', 'name' => 'Home'],
+            ['presenter' => 'Faculty:', 'name' => 'Fakulty'],
+            ['presenter' => 'Course:', 'name' => 'Studijní obory'],
+            ['presenter' => 'Semester:', 'name' => 'Semestry'],
+            ['presenter' => 'Subject:', 'name' => 'Předměty'],
+            ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
+            ['presenter' => 'Competence:', 'name' => 'Kompetence'],
         ];
     }
 }

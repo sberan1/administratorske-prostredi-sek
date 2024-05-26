@@ -11,15 +11,6 @@ use Nettrine\ORM\EntityManagerDecorator;
 
 class EditUserPresenter extends BasePresenter
 {
-    private EntityManagerDecorator $em;
-    private NetteUser $user;
-
-    public function __construct(EntityManagerDecorator $em, NetteUser $user)
-    {
-        $this->em = $em;
-        $this->user = $user;
-    }
-
     protected function startup()
     {
         parent::startup();
@@ -30,19 +21,6 @@ class EditUserPresenter extends BasePresenter
 
     public function actionDefault(string $id): void
     {
-        $data = $this->user->getIdentity()->getData();
-        $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
-
-        $this->template->links = [
-            ['presenter' => 'Home:', 'name' => 'Home'],
-            ['presenter' => 'Faculty:', 'name' => 'Fakulty'],
-            ['presenter' => 'Course:', 'name' => 'Studijní obory'],
-            ['presenter' => 'Semester:', 'name' => 'Semestry'],
-            ['presenter' => 'Subject:', 'name' => 'Předměty'],
-            ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
-            ['presenter' => 'Competence:', 'name' => 'Kompetence'],
-        ];
-
         // Fetch the user from the database
         $userEntity = $this->em->getRepository(User::class)->find($id);
 

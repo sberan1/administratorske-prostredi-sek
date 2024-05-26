@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Nette\Bootstrap\Configurator;
 use Symfony\Component\Console\Application as SymfonyApplication;
+use Tracy\Debugger;
 
 
 class Bootstrap
@@ -18,6 +19,8 @@ class Bootstrap
 		$configurator = new Configurator;
 		$appDir = dirname(__DIR__);
 
+        Debugger::$maxDepth=20;
+        Debugger::$maxLength=300;
 
 		$configurator->setDebugMode(true);
 		$configurator->enableTracy($appDir . '/log');

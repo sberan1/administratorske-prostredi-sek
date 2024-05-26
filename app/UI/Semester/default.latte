@@ -1,16 +1,22 @@
 {layout "../Template/template.latte"}
 {block content}
+    <div class="d-flex justify-content-between align-items-center my-3">
+        <h3>Semestry</h3>
+        <a href="{link 'Semester:add'}" class="btn btn-primary rounded-circle">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
     <table class="table" style="margin-top: 15px">
         <tr>
-            <th>Semester Name</th>
-            <th>Course</th>
+            <th>Název Semestru</th>
+            <th>Studijní obor</th>
             <th>Edit</th>
-            <th>Delete</th>
+            <th>Smazat</th>
         </tr>
         {foreach $semesters as $semester}
             <tr>
                 <td>{$semester->getName()}</td>
-                <td>{$semester->getCourse()->getName()}</td>
+                <td>{$semester->getCourses()->getName()}</td>
                 <td>
                     <a class="btn btn-primary" href="{link 'Semester:edit', $semester->getId()}">Edit</a>
                 </td>

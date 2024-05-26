@@ -11,17 +11,7 @@ use Ublaboo\DataGrid\DataGrid;
 
 final class HomePresenter extends BasePresenter
 {
-    private NetteUser $user;
     private const ITEMS_PER_PAGE = 15;
-
-
-    public function __construct(
-        private readonly EntityManagerDecorator $em,
-        NetteUser $user
-    )
-    {
-        $this->user = $user;
-    }
 
     protected function startup()
     {
@@ -33,18 +23,6 @@ final class HomePresenter extends BasePresenter
 
     public function renderDefault(int $page = 1)
     {
-        $data = $this->user->getIdentity()->getData();
-        $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
-
-        $this->template->links = [
-            ['presenter' => 'Home:', 'name' => 'Home'],
-            ['presenter' => 'Faculty:', 'name' => 'Fakulty'],
-            ['presenter' => 'Course:', 'name' => 'Studijní obory'],
-            ['presenter' => 'Semester:', 'name' => 'Semestry'],
-            ['presenter' => 'Subject:', 'name' => 'Předměty'],
-            ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
-            ['presenter' => 'Competence:', 'name' => 'Kompetence'],
-        ];
 
         $qb = $this->em->getRepository(User::class)
             ->createQueryBuilder('u')
@@ -59,5 +37,24 @@ final class HomePresenter extends BasePresenter
         $this->template->totalPages = ceil($this->em->getRepository(User::class)->count([]) / self::ITEMS_PER_PAGE);
     }
 
+    public function actionDelete(string $id): void
+    {
+        // Fetch the user from the database
+        $user = $this->em->getRepository(User::class)->find($id);
 
+        if (!$user) {
+            $this->error('User not found');
+        }
+
+        // Remove the user from the database
+        $this->em->remove($user);
+        $this->em->flush();
+
+        // Redirect the user to the homepage
+        $this->redirect('Home:');
+    }
+    public function actionEdit(string $id): void
+    {
+        $this->redirect('EditUser:', $id);
+    }
 }

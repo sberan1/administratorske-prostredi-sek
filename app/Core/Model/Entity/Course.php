@@ -22,4 +22,62 @@ class Course
 
     #[ORM\OneToMany(targetEntity: Semester::class, mappedBy: "course")]
     private $semesters;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getFaculty(): Faculty
+    {
+        return $this->faculty;
+    }
+
+    public function setFaculty(Faculty $faculty): void
+    {
+        $this->faculty = $faculty;
+    }
+
+    public function getFacultyId(): string
+    {
+        return $this->facultyId;
+    }
+
+    public function setFacultyId(string $facultyId): void
+    {
+        $this->facultyId = $facultyId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSemesters()
+    {
+        return $this->semesters;
+    }
+
+    /**
+     * @param mixed $semesters
+     */
+    public function setSemesters($semesters): void
+    {
+        $this->semesters = $semesters;
+    }
+
+
 }

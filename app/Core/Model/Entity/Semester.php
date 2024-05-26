@@ -21,17 +21,81 @@ class Semester
     private $subjects;
 
     #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: "semesters")]
-    private Course $course;
-
-    #[ORM\Column(type: "uuid", nullable: false)]
-    private string $coursesId;
+    private Course $courses;
 
     #[ORM\OneToOne(targetEntity: Semester::class)]
     private ?Semester $nextSemester = null;
 
-    #[ORM\Column(type: "uuid", nullable: true)]
-    private ?string $nextSemesterId = null;
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
-    #[ORM\ManyToOne(targetEntity: Semester::class)]
-    private Semester $previousSemester;
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserSemesters()
+    {
+        return $this->userSemesters;
+    }
+
+    /**
+     * @param mixed $userSemesters
+     */
+    public function setUserSemesters($userSemesters): void
+    {
+        $this->userSemesters = $userSemesters;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubjects()
+    {
+        return $this->subjects;
+    }
+
+    /**
+     * @param mixed $subjects
+     */
+    public function setSubjects($subjects): void
+    {
+        $this->subjects = $subjects;
+    }
+
+    public function getCourses(): Course
+    {
+        return $this->courses;
+    }
+
+    public function setCourses(Course $courses): void
+    {
+        $this->courses = $courses;
+    }
+
+    public function getNextSemester(): ?Semester
+    {
+        return $this->nextSemester;
+    }
+
+    public function setNextSemester(?Semester $nextSemester): void
+    {
+        $this->nextSemester = $nextSemester;
+    }
+
 }

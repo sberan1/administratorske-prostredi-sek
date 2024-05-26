@@ -9,14 +9,7 @@ use Nettrine\ORM\EntityManagerDecorator;
 
 class FacultyPresenter extends BasePresenter
 {
-    private EntityManagerDecorator $em;
-    private NetteUser $user;
     private const ITEMS_PER_PAGE = 15;
-    public function __construct(EntityManagerDecorator $em, NetteUser $user)
-    {
-        $this->em = $em;
-        $this->user = $user;
-    }
 
     protected function startup()
     {
@@ -27,19 +20,6 @@ class FacultyPresenter extends BasePresenter
     }
     public function renderDefault(int $page=1): void
     {
-        $data = $this->user->getIdentity()->getData();
-        $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
-
-        $this->template->links = [
-            ['presenter' => 'Home:', 'name' => 'Home'],
-            ['presenter' => 'Faculty:', 'name' => 'Fakulty'],
-            ['presenter' => 'Course:', 'name' => 'Studijní obory'],
-            ['presenter' => 'Semester:', 'name' => 'Semestry'],
-            ['presenter' => 'Subject:', 'name' => 'Předměty'],
-            ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
-            ['presenter' => 'Competence:', 'name' => 'Kompetence'],
-        ];
-
         $qb = $this->em->getRepository(Faculty::class)
             ->createQueryBuilder('f')
             ->orderBy('f.name', 'ASC')
