@@ -2,6 +2,7 @@
 
 namespace App\UI\EditSubject;
 
+use App\Core\Model\Entity\RecommendedSemester;
 use App\Core\Model\Entity\Semester;
 use App\Core\Model\Entity\Subject;
 use App\UI\BasePresenter;
@@ -14,8 +15,21 @@ class EditSubjectPresenter extends BasePresenter
     public function actionDefault(string $id = null): void
     {
         if ($id) {
-            $subject = $this->em->getRepository(Subject::class)->find($id);
+            $sql = '
+        SELECT s.id, sem.id AS semester_id, s.name, sem.name AS semester_name, s.code, c.name as course_name
+        FROM "Subject" AS s
+        JOIN "_RecommendedSemester" AS rs ON s.id = rs."B"
+        JOIN "Semester" AS sem ON rs."A" = sem.id
+        JOIN "Course" AS c ON sem."coursesId" = c.id
+        WHERE s.id = :id;
+        ';
+
+
+            $sub = $this->em->getConnection()->prepare($sql);
+            $sub->bindValue('id', $id);
+            $subject = $sub->executeQuery()->fetchAllAssociative();
             $this->template->subject = $subject;
+
         }
     }
 
@@ -42,16 +56,16 @@ class EditSubjectPresenter extends BasePresenter
         if (isset($this->template->subject)) {
             $subject = $this->template->subject;
             $form->addSubmit('save', 'Save Changes');
-
+            bdump($subject);
             $form->onSuccess[] = [$this, 'handleEdit'];
-            bdump($subject->getRecommendedSemester()->toArray());
-            bdump($semesters[1]->getSubjects());
+            //bdump($subject->getRecommendedSemester()->toArray());
+            //bdump($semesters[1]->getSubjects());
             $form->setDefaults([
-                'name' => $subject->getName(),
-                'code' => $subject->getCode(),
+                'name' => $subject[0]['name'],
+                'code' => $subject[0]['code'],
                 'recommendedSemesters' => array_map(function ($semester) {
-                    return $semester->getId();
-                }, $subject->getRecommendedSemester()->toArray()),
+                    return $semester['semester_id'];
+                }, $subject),
             ]);
         } else {
             $form->addSubmit('save', 'Create Subject');
@@ -68,10 +82,17 @@ class EditSubjectPresenter extends BasePresenter
         $subject->setName($values['name']);
         $subject->setCode($values['code']);
 
+        foreach ($values['recommendedSemesters'] as $semesterId) {
+            $recommended = new RecommendedSemester();
+            $recommended->setA($semesterId);
+            $recommended->setB($subject->getId());
+            $this->em->persist($recommended);
+            $this->em->flush();
+        }
+
         $this->em->persist($subject);
         $this->em->flush();
 
-        $this->flashMessage('Subject was successfully created', 'success');
         $this->redirect('Subject:');
     }
 
@@ -81,10 +102,18 @@ class EditSubjectPresenter extends BasePresenter
         $subject->setName($values['name']);
         $subject->setCode($values['code']);
 
+
+        foreach ($values['recommendedSemesters'] as $semesterId) {
+            $recommended = new RecommendedSemester();
+            $recommended->setA($semesterId);
+            $recommended->setB($subject->getId());
+            $this->em->persist($recommended);
+            $this->em->flush();
+        }
+
         $this->em->persist($subject);
         $this->em->flush();
 
-        $this->flashMessage('Subject was successfully updated', 'success');
         $this->redirect('Subject:');
     }
 }

@@ -23,7 +23,6 @@ final class HomePresenter extends BasePresenter
 
     public function renderDefault(int $page = 1)
     {
-
         $qb = $this->em->getRepository(User::class)
             ->createQueryBuilder('u')
             ->select(['u', 'f'])
@@ -39,18 +38,15 @@ final class HomePresenter extends BasePresenter
 
     public function actionDelete(string $id): void
     {
-        // Fetch the user from the database
         $user = $this->em->getRepository(User::class)->find($id);
 
         if (!$user) {
             $this->error('User not found');
         }
 
-        // Remove the user from the database
         $this->em->remove($user);
         $this->em->flush();
 
-        // Redirect the user to the homepage
         $this->redirect('Home:');
     }
     public function actionEdit(string $id): void

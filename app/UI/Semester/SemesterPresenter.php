@@ -48,13 +48,11 @@ class SemesterPresenter extends BasePresenter
     {
         $semester = $this->em->getRepository(Semester::class)->find($id);
 
-        if ($semester === null) {
-            $this->flashMessage('Nenalezen semestr s timto ID', 'error');
-        } else {
+        if ($semester !== null) {
             $this->em->remove($semester);
             $this->em->flush();
-            $this->flashMessage('Semestr byl úspěšně smazán', 'success');
         }
+
         $this->redirect('Semester:');
     }
 }

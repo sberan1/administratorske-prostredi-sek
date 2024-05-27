@@ -71,7 +71,6 @@ class EditCoursePresenter extends BasePresenter
         $this->em->persist($course);
         $this->em->flush();
 
-        $this->flashMessage('Studijní Obor byl úspěšně vytvořen', 'success');
         $this->redirect('Course:');
     }
 
@@ -84,7 +83,6 @@ class EditCoursePresenter extends BasePresenter
         $this->em->persist($course);
         $this->em->flush();
 
-        $this->flashMessage('Studijní Obor byl úspěšně upraven', 'success');
         $this->redirect('Course:');
     }
 

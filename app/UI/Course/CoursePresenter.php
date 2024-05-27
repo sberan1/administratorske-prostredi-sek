@@ -46,12 +46,9 @@ class CoursePresenter extends BasePresenter
     {
         $course = $this->em->getRepository(Course::class)->find($id);
 
-        if ($course === null) {
-            $this->flashMessage('No course found with the provided ID', 'error');
-        } else {
+        if ($course !== null) {
             $this->em->remove($course);
             $this->em->flush();
-            $this->flashMessage('Course was successfully deleted', 'success');
         }
 
         $this->redirect('Course:');

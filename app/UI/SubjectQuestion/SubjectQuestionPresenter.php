@@ -39,13 +39,11 @@ class SubjectQuestionPresenter extends BasePresenter
     {
         $subjectQuestion = $this->em->getRepository(SubjectQuestion::class)->find($id);
 
-        if ($subjectQuestion === null) {
-            $this->flashMessage('Subject question with provided ID was not found', 'error');
-        } else {
+        if ($subjectQuestion !== null) {
             $this->em->remove($subjectQuestion);
             $this->em->flush();
-            $this->flashMessage('Subject question was successfully deleted', 'success');
         }
+
 
         $this->redirect('SubjectQuestion:');
     }

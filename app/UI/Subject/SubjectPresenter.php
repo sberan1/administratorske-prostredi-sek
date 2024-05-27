@@ -19,16 +19,16 @@ class SubjectPresenter extends BasePresenter
 
     public function renderDefault(int $page=1): void
     {
-        $qb = $this->em->getRepository(Subject::class)
-            ->createQueryBuilder('s')
-            ->select(['s', 'rs', 'sem'])
-            ->leftJoin('s.recommendedSemester', 'rs')
-            ->leftJoin('rs.A', 'sem')
-            ->orderBy('s.name', 'ASC')
-            ->setFirstResult(($page - 1) * self::ITEMS_PER_PAGE)
-            ->setMaxResults(self::ITEMS_PER_PAGE);
+        $sql = '
+        SELECT s.id, sem.id AS semester_id, s.name, sem.name AS semester_name, s.code, c.name as course_name
+        FROM "Subject" AS s
+        JOIN "_RecommendedSemester" AS rs ON s.id = rs."B"
+        JOIN "Semester" AS sem ON rs."A" = sem.id
+        JOIN "Course" AS c ON sem."coursesId" = c.id;
+        ';
 
-        $subjects = $qb->getQuery()->getResult();
+        $subjects = $this->em->getConnection()->prepare($sql)->executeQuery()->fetchAllAssociative();
+        //bdump($subjects);
         $this->template->subjects = $subjects;
         $this->template->currentPage = $page;
         $this->template->totalPages = ceil($this->em->getRepository(Subject::class)->count([]) / self::ITEMS_PER_PAGE);
@@ -48,13 +48,11 @@ class SubjectPresenter extends BasePresenter
     {
         $subject = $this->em->getRepository(Subject::class)->find($id);
 
-        if ($subject === null) {
-            $this->flashMessage('Předmět s poskytnutým ID nebyl nalezen', 'error');
-        } else {
+        if ($subject !== null) {
             $this->em->remove($subject);
             $this->em->flush();
-            $this->flashMessage('Předmět byl úspěšně smazán', 'success');
         }
+
 
         $this->redirect('Subject:');
     }

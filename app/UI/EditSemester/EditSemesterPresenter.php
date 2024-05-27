@@ -79,7 +79,6 @@ class EditSemesterPresenter extends BasePresenter
         $this->em->persist($semester);
         $this->em->flush();
 
-        $this->flashMessage('Semestr byl úspěšně vytvořen', 'success');
         $this->redirect('Semester:');
     }
 
@@ -92,7 +91,6 @@ class EditSemesterPresenter extends BasePresenter
         $this->em->persist($semester);
         $this->em->flush();
 
-        $this->flashMessage('Semestr byl úspěšně upraven', 'success');
         $this->redirect('Semester:');
     }
 

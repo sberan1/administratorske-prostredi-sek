@@ -15,10 +15,12 @@
 
             <!-- Main content -->
             <div class="col-md-10">
+
                <h1 class="mt-4 text-right text-wrap">Přihlášený uživatel: {$name}</h1>
                <div class="d-flex justify-content-end">
                    <a href="{link 'Home:SignOut'}" class="btn btn-success mt-4">Odhlásit se</a>
                </div>
+
                {block content}
                 {/block}
             </div>

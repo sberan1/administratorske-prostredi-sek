@@ -26,6 +26,7 @@ class EditFacultyPresenter extends BasePresenter
     {
         if ($id) {
             $faculty = $this->em->getRepository(Faculty::class)->find($id);
+            bdump($faculty);
             $this->template->fakulta = $faculty;
         }
     }
@@ -37,9 +38,9 @@ class EditFacultyPresenter extends BasePresenter
             ->setRequired('Název fakulty je povinný')
             ->addRule(Form::MAX_LENGTH, 'Název fakulty může mít maximálně %d znaků', 255);
 
-
-        if (isset($this->template->faculty)) {
-            $faculty = $this->template->faculty;
+       // bdump(isset($this->template->faculty));
+        if (isset($this->template->fakulta)) {
+            $faculty = $this->template->fakulta;
             $form->addSubmit('save', 'Uložit změny');
 
             $form->onSuccess[] = [$this, 'handleEdit'];
@@ -60,7 +61,6 @@ class EditFacultyPresenter extends BasePresenter
         $faculty->setName($values['name']);
         $this->em->persist($faculty);
         $this->em->flush();
-        $this->flashMessage('Fakulta byla úspěšně upravena', 'success');
         $this->redirect('Faculty:');
     }
 
@@ -71,7 +71,6 @@ class EditFacultyPresenter extends BasePresenter
         $faculty->setName($values['name']);
         $this->em->persist($faculty);
         $this->em->flush();
-        $this->flashMessage('Faculty was successfully added', 'success');
         $this->redirect('Faculty:');
     }
 }

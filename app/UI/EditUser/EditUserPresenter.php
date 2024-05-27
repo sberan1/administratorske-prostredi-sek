@@ -21,14 +21,12 @@ class EditUserPresenter extends BasePresenter
 
     public function actionDefault(string $id): void
     {
-        // Fetch the user from the database
         $userEntity = $this->em->getRepository(User::class)->find($id);
 
         if (!$userEntity) {
             $this->error('User not found');
         }
 
-        // Pass the user entity to the template
         $this->template->uzivatel = $userEntity;
     }
 
@@ -57,10 +55,8 @@ class EditUserPresenter extends BasePresenter
 
         $form->onSuccess[] = [$this, 'handleEdit'];
 
-        // Fetch the user entity
         $userEntity = $this->template->uzivatel;
 
-        // Set the default values of the form fields
         $form->setDefaults([
             'email' => $userEntity->getEmail(),
             'firstName' => $userEntity->getFirstName(),
@@ -74,21 +70,17 @@ class EditUserPresenter extends BasePresenter
 
     public function handleEdit(BootstrapForm $form, \stdClass $values): void
     {
-        // Fetch the user entity
         $userEntity = $this->template->uzivatel;
 
-        // Set the new values for the user entity
         $userEntity->setEmail($values->email);
         $userEntity->setFirstName($values->firstName);
         $userEntity->setLastName($values->lastName);
         $userEntity->setRole($values->role);
         $userEntity->setBlocked($values->blocked);
 
-        // Persist the changes to the database
         $this->em->persist($userEntity);
         $this->em->flush();
 
-        // Redirect the user to a success page or back to the form
         $this->redirect('Home:');
     }
 }
