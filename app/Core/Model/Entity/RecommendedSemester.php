@@ -11,11 +11,33 @@ class RecommendedSemester
 {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Semester::class)]
-    #[ORM\JoinColumn(name: "A", referencedColumnName: "id")]
+    #[ORM\Column(name: '"A"')]
     private Semester $A;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Subject::class)]
-    #[ORM\JoinColumn(name: "B", referencedColumnName: "id")]
+    #[ORM\Column(name: '"B"')]
     private Subject $B;
+
+    public function getA(): Semester
+    {
+        return $this->A;
+    }
+
+    public function setA(Semester $A): void
+    {
+        $this->A = $A;
+    }
+
+    public function getB(): Subject
+    {
+        return $this->B;
+    }
+
+    public function setB(Subject $B): void
+    {
+        $this->B = $B;
+    }
+
+
 }

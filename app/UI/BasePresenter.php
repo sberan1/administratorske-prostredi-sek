@@ -20,8 +20,13 @@ class BasePresenter extends Presenter
     protected function startup()
     {
         parent::startup();
-        $data = $this->user->getIdentity()->getData();
-        $this->template->name = $data["firstName"] . " " . $data['lastName'] ?? "ADMIN";
+        if ($this->user->getIdentity() !== null) {
+              $data = $this->user->getIdentity()->getData();
+        }
+        else{
+            $data = [];
+        }
+        $this->template->name = $data ? $data["firstName"] . " " . $data['lastName'] : "ADMIN";
 
         $this->template->links = [
             ['presenter' => 'Home:', 'name' => 'Home'],
@@ -30,7 +35,12 @@ class BasePresenter extends Presenter
             ['presenter' => 'Semester:', 'name' => 'Semestry'],
             ['presenter' => 'Subject:', 'name' => 'Předměty'],
             ['presenter' => 'SubjectQuestion:', 'name' => 'Jádrové výstupy'],
-            ['presenter' => 'Competence:', 'name' => 'Kompetence'],
         ];
+    }
+    public function actionSignOut(): void
+    {
+        $this->getUser()->logout();
+        $this->flashMessage('You have been signed out.');
+        $this->redirect('Login:');
     }
 }

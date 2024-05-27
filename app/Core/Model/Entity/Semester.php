@@ -3,13 +3,14 @@
 namespace App\Core\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 #[ORM\Entity]
 class Semester
 {
     #[ORM\Id]
     #[ORM\Column(type: "uuid")]
-    private string $id;
+    private $id;
 
     #[ORM\Column(type: "string", nullable: false)]
     private string $name;

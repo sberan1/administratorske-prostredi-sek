@@ -21,11 +21,15 @@ class SubjectPresenter extends BasePresenter
     {
         $qb = $this->em->getRepository(Subject::class)
             ->createQueryBuilder('s')
+            ->select(['s', 'rs', 'sem'])
+            ->leftJoin('s.recommendedSemester', 'rs')
+            ->leftJoin('rs.A', 'sem')
             ->orderBy('s.name', 'ASC')
             ->setFirstResult(($page - 1) * self::ITEMS_PER_PAGE)
             ->setMaxResults(self::ITEMS_PER_PAGE);
 
-        $this->template->subjects = $qb->getQuery()->getResult();
+        $subjects = $qb->getQuery()->getResult();
+        $this->template->subjects = $subjects;
         $this->template->currentPage = $page;
         $this->template->totalPages = ceil($this->em->getRepository(Subject::class)->count([]) / self::ITEMS_PER_PAGE);
     }
